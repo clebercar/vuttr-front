@@ -5,10 +5,12 @@ import {
     TagItem
 } from './styles';
 
-export default function Tag() {
+export default function Tag({ tags }) {
   return (
     <TagList>
-        <TagItem>repositories</TagItem>
+        {tags.map((tag, index) => (
+          <TagItem key={index}>{tag}</TagItem>
+        ))}
     </TagList>
   );
 }
