@@ -1,40 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {
-    Tool,
-    ToolTitle,
-    ToolUri,
-    ToolDelete,
-    ToolHeader
-} from './styles';
+import './styles.css'
 
+import api from '../../services/api';
 import Tag from '../Tag';
 import { MdClear } from "react-icons/md";
 
 export default function Tools() {
-    const [tools, setTools] = useState([
-        { id: 1, title: 'Github', description: 'Lorem ipsum shura it leave to caps', uri: 'https://teste.com'},
-        { id: 2, title: 'Github', description: 'Lorem ipsum shura it leave to caps', uri: 'https://teste.com'},
-        { id: 3, title: 'Github', description: 'Lorem ipsum shura it leave to caps', uri: 'https://teste.com'},
-        { id: 4, title: 'Github', description: 'Lorem ipsum shura it leave to caps', uri: 'https://teste.com'},
-        { id: 5, title: 'Github', description: 'Lorem ipsum shura it leave to caps', uri: 'https://teste.com'},
-    ]);
+    const [tools, setTools] = useState([]);
+
+    useEffect(() => {
+        async function loadData() {
+            const response = await api.get('tools');
+            console.log(response.data)
+            setTools(response.data)
+        }
+
+        loadData();
+    }, []);
+
+    async function handleDelete(id) {
+        const response = await api.delete(`tools/${id}`);
+
+        if(response.status === 200) {
+            const listTools = tools.filter(tool => tool._id !== id);
+            setTools(listTools);
+        }
+    }
 
     return (
         <>
             <ul>
                 {tools.map(tool => (
-                    <Tool>
-                        <ToolHeader>
-                            <ToolTitle>{tool.title}</ToolTitle>
-                            <ToolDelete>
-                                <MdClear size={10} color={"#565bff"}/>
-                            </ToolDelete>
-                        </ToolHeader>
+                    <li key={tool._id} className="tool">
+                        <div className="tool-header">
+                            <p className="tool-title">{tool.title}</p>
+                            <button onClick={() => handleDelete(tool._id)} className="tool-delete" >
+                                <MdClear size={10} color={"#fff"}/>
+                            </button>
+                        </div>
 
-                        <ToolUri>{tool.uri}</ToolUri>
-                        <Tag />
-                    </Tool>
+                        <p className="tool-uri">{tool.uri}</p>
+                        <Tag tags={tool.tags}/>
+                    </li>
                 ))}
             </ul>
         </>
