@@ -1,31 +1,36 @@
-import styled from 'styled-components';
-
-export const Tool = styled.li`
-    background: #191932;
+.tool{
+    background: #4e73df;
     color: white;
     padding: 10px;
     border-radius: 10px;
     margin-top: 20px;
-`;
+}
 
-export const ToolTitle = styled.p`
+.tool-title {
     font-size: 18px;
     font-weight: 500;
-`;
+}
 
-export const ToolDelete = styled.button`
+.tool-delete{
     border: none;
-    background: #030306;
+    background: #4262be;
     border-radius: 50%;
     width: 20px;
     height: 20px;
-`;
+    position: relative;
+}
 
-export const ToolHeader = styled.div`
+.tool-delete svg{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.tool-header{
     display: flex;
     justify-content: space-between;
-`;
+}
 
-export const ToolUri = styled.p`
+.tool-uri {
     margin: 10px 0;
-`;
+}
