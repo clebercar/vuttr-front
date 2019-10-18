@@ -1,3 +1,9 @@
+import { createReducer, createActions } from 'reduxsauce';
+
+export const { Types, Creators } = createActions({
+  removeTool: ['id'] 
+})
+
 const INITIAL_STATE = [
   {
       "tags": [
@@ -28,10 +34,9 @@ const INITIAL_STATE = [
   }
 ]
 
-export default function tools(state = INITIAL_STATE, action) {
-  if(action.type === 'DELETE_TOOL') {
-    return state.filter( tool => tool._id !== action.id)
-  }
+const remove = (state = INITIAL_STATE, action) =>
+  state.filter( tool => tool._id !== action.id)
 
-  return state;
-}
+export default createReducer(INITIAL_STATE, {
+  [Types.REMOVE_TOOL]: remove
+})

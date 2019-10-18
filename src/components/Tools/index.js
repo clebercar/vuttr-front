@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux';
 
 import './styles.css'
 
-import { Creators as ToolsActions } from '../../store/ducks/todos'
+import { Creators as ToolsActions } from '../../store/ducks/tools'
 
 import Tag from '../Tag';
 import { MdClear } from "react-icons/md";
 
-const Tools = ({ tools, deleteTool }) => (
+const Tools = ({ tools, removeTool }) => (
     <>
         <ul>
             {tools.map(tool => (
@@ -17,7 +17,7 @@ const Tools = ({ tools, deleteTool }) => (
                     <div className="tool-header">
                         <p className="tool-title">{tool.title}</p>
                         <button 
-                            onClick={() => deleteTool(tool._id)} 
+                            onClick={() => removeTool(tool._id)} 
                             className="tool-delete" >
                             <MdClear size={10} color={"#fff"}/>
                         </button>
