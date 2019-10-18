@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import './styles.css'
 
-import * as ToolsActions from '../../store/actions/tools'
+import { Creators as ToolsActions } from '../../store/ducks/todos'
 
 import Tag from '../Tag';
 import { MdClear } from "react-icons/md";

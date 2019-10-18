@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
 
 import users from './users';
-import tools from './tools';
+import { tools } from '../ducks/todos';
 
 export default combineReducers({
-  users,
   tools
 })
