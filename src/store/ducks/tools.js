@@ -1,42 +1,49 @@
 import { createReducer, createActions } from 'reduxsauce';
 
 export const { Types, Creators } = createActions({
-  removeTool: ['id'] 
+  getToolsRequest: ['tools'],
+  getToolsSuccess: ['tools'],
+  getToolsFailure: ['errors'],
+  removeToolRequest: ['id'],
+  removeToolSuccess: ['id'],
+  removeToolFailure: ['errors'],
 })
 
-const INITIAL_STATE = [
-  {
-      "tags": [
-          "tarefas",
-          "organização",
-          "atividades",
-          "produtividade"
-      ],
-      "_id": "5d1a8363a7aefd001fdaa807",
-      "title": "Miro",
-      "link": "https://miro.info/",
-      "description": "Trello é um aplicativo de gerenciamento de projeto baseado na web originalmente feito por Fog Creek Software em 2011.",
-      "created_at": "2019-07-01T22:04:19.380Z",
-      "updatedAt": "2019-07-01T22:04:19.380Z",
-      "__v": 0
-  },
-  {
-    "tags": [
-        "tarefas",
-        "organização",
-        "atividades",
-        "produtividade"
-    ],
-    "_id": "5ce5ccaad5fcb30029d34fd1",
-    "title": "Github",
-    "link": "https://github.org/",
-    "description": "Trello é um aplicativo de gerenciamento de projeto baseado na web originalmente feito por Fog Creek Software em 2011.",
-  }
-]
+const INITIAL_STATE = {
+  toolsList: {
+    tools: null,
+    loading: false,
+    errors: [],
+  } 
+}
 
-const remove = (state = INITIAL_STATE, action) =>
-  state.filter( tool => tool._id !== action.id)
+const toolRequest = (state, { tools }) => ({ ...state, toolsList: { tools , loading: true } });
+
+const toolSuccess = (state, { tools }) => {
+  return { ...state, toolsList: { tools, loading: false, errors: [] } }
+}
+
+const toolRemoveSuccess = (state, { id } ) => {
+  return { 
+    ...state, 
+    toolsList: { 
+      tools: state.toolList.filter(tool => tool._id !== id ),
+      loading: false,
+      errors: []
+    }
+  }
+}
+
+const toolFailure = (state, { tools, errors }) => {
+  console.log(state)
+  return { ...state, toolsList: { loading: false, errors } }
+}
 
 export default createReducer(INITIAL_STATE, {
-  [Types.REMOVE_TOOL]: remove
+  [Types.GET_TOOLS_REQUEST]: toolRequest,
+  [Types.GET_TOOLS_SUCCESS]: toolSuccess,
+  [Types.GET_TOOLS_FAILURE]: toolFailure,
+  [Types.REMOVE_TOOL_REQUEST]: toolRequest,
+  [Types.REMOVE_TOOL_SUCCESS]: toolRemoveSuccess,
+  [Types.REMOVE_TOOL_FAILURE]: toolFailure,
 })
